@@ -1,0 +1,24 @@
+# Virtual Environment (NEVER push to GitHub - contains machine-specific binaries)
+venv/
+env/
+ENV/
+.venv/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Temporary & conversion preview files
+*_preview.mp4
+*_preview.gif
+temp_*
+*.tmp
+
+# Operating system artifacts
+.DS_Store
+Thumbs.db
+
+# Large dataset raw folder (412 MB - Git has 100MB limit per file, sample_videos/ contains demo clips)
+data/
