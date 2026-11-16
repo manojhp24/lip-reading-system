@@ -106,6 +106,32 @@ with st.sidebar:
     st.markdown("*MCA Final Year Project Implementation*")
     
     st.divider()
+    st.markdown("### 🌐 Inference Engine Mode")
+    engine_mode = st.radio(
+        "Select Prediction Engine:",
+        [
+            "⚡ Local Auto-AVSR (100% Offline, Any Video)",
+            "🎯 Benchmark LipNet (Nick Nochnack / GRID)",
+            "☁️ Optional Cloud GPU (Google Colab)"
+        ],
+        index=0
+    )
+
+    cloud_api_url = ""
+    is_cloud_active = False
+    if "Cloud" in engine_mode:
+        st.info("💡 Run `colab_backend.py` on free Google Colab GPU and paste your URL below to recognize ANY custom silent video in natural English.")
+        cloud_api_url = st.text_input("Gradio Cloud API URL:", placeholder="https://xxxx.gradio.live")
+        if cloud_api_url:
+            st.session_state.engine.set_cloud_endpoint(cloud_api_url)
+            is_cloud_active = True
+            st.success("Connected to Cloud GPU!")
+    elif "Auto-AVSR" in engine_mode:
+        st.caption("✅ **100% Offline Active**: Open-vocabulary VSR running on your Intel Core i7 CPU via quantized INT8 ONNX.")
+    else:
+        st.caption("🎯 **Benchmark LipNet Active**: Evaluates GRID corpus benchmark clips via 3D-CNN + BiLSTM.")
+
+    st.divider()
     st.markdown("### 📋 Implemented Modules")
     st.markdown("""
     1. **M1**: Video Acquisition
@@ -121,7 +147,7 @@ with st.sidebar:
     
     st.divider()
     st.markdown("### 💻 Hardware & Environment")
-    st.info("CPU: Intel Core i7 (Optimized)\nRAM: 16 GB\nMode: 100% Offline (Local Execution)")
+    st.info("CPU: Intel Core i7 (Optimized)\nRAM: 16 GB\nMode: 100% Offline (Local CPU ONNX + TF)")
 
 # ==============================================================================
 # 5. MAIN USER INTERFACE
@@ -192,8 +218,10 @@ with col_output:
                 # --- STEPS 5 & 6: Deep Learning Feature Extraction & Recognition ---
                 recognition_res = st.session_state.engine.recognize_speech(
                     video_path=temp_video_path,
+                    frames=frames,
                     preprocessed_tensor=tensor,
-                    original_filename=original_video_name
+                    original_filename=original_video_name,
+                    engine_mode=engine_mode
                 )
 
                 # --- STEPS 7 & 8: Confidence & Feedback Evaluation ---

@@ -2,7 +2,12 @@
 
 **MCA Final Year Project — Visual Speech Recognition (VSR)**
 
-An end-to-end deep learning system that recognizes spoken words or phrases by analyzing visual lip movements from video input without depending on audio. Built using 3D-CNNs, Bidirectional LSTMs, and CTC Decoding on the GRID audio-visual corpus.
+An end-to-end deep learning system that recognizes spoken words or phrases by analyzing visual lip movements from video input without depending on audio.
+
+### 🌟 Key Capabilities
+- **100% Offline Inference:** Runs entirely on CPU (Intel Core i5/i7) with zero internet connection required.
+- **Open-Vocabulary VSR (Auto-AVSR):** Recognizes custom silent videos recorded from any webcam or mobile phone using dynamic facial landmark tracking and quantized INT8 ONNX runtime.
+- **Benchmark LipNet Engine:** Pre-trained 3D-CNN + BiLSTM + CTC decoding on the GRID audio-visual corpus.
 
 ---
 

@@ -20,5 +20,10 @@ temp_*
 .DS_Store
 Thumbs.db
 
+# Large model weights (Git has 100MB per file limit; auto-downloaded on first run)
+models/auto_avsr/*.onnx
+*.onnx
+
 # Large dataset raw folder (412 MB - Git has 100MB limit per file, sample_videos/ contains demo clips)
 data/
+
