@@ -75,26 +75,40 @@ if "acquisition" not in st.session_state:
 def render_video_preview(video_path: str, display_name: str):
     """Renders video playback for MP4 or generates an animated GIF preview for MPG files."""
     st.markdown("#### 🎬 Input Video Player Preview")
+    is_rendered = False
     if video_path.lower().endswith(".mp4"):
-        st.video(video_path)
-    else:
-        preview_gif = video_path.rsplit(".", 1)[0] + "_preview.gif"
+        try:
+            with open(video_path, "rb") as vf:
+                video_bytes = vf.read()
+            st.video(video_bytes)
+            is_rendered = True
+        except Exception:
+            is_rendered = False
+            
+    if not is_rendered:
+        preview_gif = os.path.splitext(video_path)[0] + "_preview.gif"
         if not os.path.exists(preview_gif):
-            cap = cv2.VideoCapture(video_path)
-            pv_frames = []
-            while cap.isOpened() and len(pv_frames) < 75:
-                ret, frame = cap.read()
-                if not ret:
-                    break
-                pv_frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            cap.release()
-            if pv_frames:
-                imageio.mimsave(preview_gif, pv_frames, fps=25)
+            try:
+                cap = cv2.VideoCapture(video_path)
+                pv_frames = []
+                while cap.isOpened() and len(pv_frames) < 75:
+                    ret, frame = cap.read()
+                    if not ret:
+                        break
+                    h, w = frame.shape[:2]
+                    if w > 480:
+                        frame = cv2.resize(frame, (480, int(h * 480 / w)))
+                    pv_frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                cap.release()
+                if pv_frames:
+                    imageio.mimsave(preview_gif, pv_frames, fps=25)
+            except Exception:
+                pass
         
         if os.path.exists(preview_gif):
             st.image(preview_gif, caption=f"Playback Animation: {display_name}", use_container_width=True)
         else:
-            st.video(video_path)
+            st.info(f"Loaded video: {display_name}")
 
 # ==============================================================================
 # 4. SIDEBAR SPECIFICATIONS
@@ -176,9 +190,11 @@ with col_input:
         if uploaded_file is not None:
             original_video_name = uploaded_file.name
             file_ext = os.path.splitext(uploaded_file.name)[1].lower() or ".mp4"
-            tfile = tempfile.NamedTemporaryFile(delete=False, suffix=file_ext)
-            tfile.write(uploaded_file.read())
-            temp_video_path = tfile.name
+            upload_dir = os.path.join(tempfile.gettempdir(), "lip_reading_uploads")
+            os.makedirs(upload_dir, exist_ok=True)
+            temp_video_path = os.path.join(upload_dir, uploaded_file.name)
+            with open(temp_video_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
             render_video_preview(temp_video_path, original_video_name)
     else:
         sample_options = {

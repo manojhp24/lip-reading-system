@@ -36,6 +36,12 @@ class VideoAcquisitionModule:
             ret, frame = cap.read()
             if not ret:
                 break
+            # Resize very high resolution videos (e.g. 1080p/4K phone clips) down to standard HD for fast processing
+            if frame.shape[1] > 720:
+                h, w = frame.shape[:2]
+                new_w = 720
+                new_h = int(h * (720 / w))
+                frame = cv2.resize(frame, (new_w, new_h), interpolation=cv2.INTER_AREA)
             frames.append(frame)
 
         cap.release()
