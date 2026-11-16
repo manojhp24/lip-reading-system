@@ -266,38 +266,18 @@ elif st.session_state.current_page == "upload":
 
     with col_up1:
         st.markdown("### 1. Video Acquisition (Module 1)")
-        input_choice = st.radio(
-            "Select Input Source:",
-            ["📁 Upload Video File (.mp4, .mpg, .avi)", "📹 Use Sample Demo Videos"],
-            horizontal=True
+        uploaded_file = st.file_uploader(
+            "Upload silent speaking video (.mp4, .mpg, .avi, .mov):", 
+            type=["mp4", "mpg", "mpeg", "avi", "mov"]
         )
-
-        if "Upload" in input_choice:
-            uploaded_file = st.file_uploader(
-                "Upload silent speaking video (3 to 10 seconds):", 
-                type=["mp4", "mpg", "mpeg", "avi", "mov"]
-            )
-            if uploaded_file is not None:
-                original_video_name = uploaded_file.name
-                file_ext = os.path.splitext(uploaded_file.name)[1].lower() or ".mp4"
-                upload_dir = os.path.join(tempfile.gettempdir(), "lip_reading_uploads")
-                os.makedirs(upload_dir, exist_ok=True)
-                temp_video_path = os.path.join(upload_dir, uploaded_file.name)
-                with open(temp_video_path, "wb") as f:
-                    f.write(uploaded_file.getbuffer())
-        else:
-            sample_options = {
-                "Benchmark 1: 'Bin Blue At F Two Now' (bbaf2n.mpg)": "sample_videos/nick_samples/bbaf2n.mpg",
-                "Benchmark 2: 'Bin Blue At L Six Now' (bbal6n.mpg)": "sample_videos/nick_samples/bbal6n.mpg",
-                "Benchmark 3: 'Lay Blue At K Two Please' (lbak2p.mpg)": "sample_videos/nick_samples/lbak2p.mpg",
-                "Benchmark 4: 'Bin Blue With M Four Now' (bbwm4n.mpg)": "data/s1/bbwm4n.mpg",
-                "Speaker 1: 'Set White With P Two Soon' (swwp2s.mp4)": "sample_videos/sample_speaker1_swwp2s.mp4",
-                "Conversational Demo 1: 'Thank You'": "sample_videos/demo_thank_you.mp4",
-                "Conversational Demo 2: 'Hello How Are You'": "sample_videos/demo_hello.mp4"
-            }
-            selected_sample = st.selectbox("Choose a pre-recorded test clip:", list(sample_options.keys()))
-            temp_video_path = sample_options[selected_sample]
-            original_video_name = os.path.basename(temp_video_path)
+        if uploaded_file is not None:
+            original_video_name = uploaded_file.name
+            file_ext = os.path.splitext(uploaded_file.name)[1].lower() or ".mp4"
+            upload_dir = os.path.join(tempfile.gettempdir(), "lip_reading_uploads")
+            os.makedirs(upload_dir, exist_ok=True)
+            temp_video_path = os.path.join(upload_dir, uploaded_file.name)
+            with open(temp_video_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
 
         st.markdown("""
         <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-top: 15px;">
