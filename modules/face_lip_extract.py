@@ -23,7 +23,7 @@ class FaceAndLipExtractor:
         # Path to bundled local Haar Cascade XML
         current_dir = os.path.dirname(os.path.abspath(__file__))
         self.cascade_path = os.path.join(current_dir, "haarcascade_frontalface_default.xml")
-        if os.path.exists(self.cascade_path):
+        if os.path.exists(self.cascade_path) and hasattr(cv2, "CascadeClassifier"):
             self.face_cascade = cv2.CascadeClassifier(self.cascade_path)
         else:
             self.face_cascade = None

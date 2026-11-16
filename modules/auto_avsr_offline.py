@@ -61,7 +61,7 @@ class AutoAVSROffline:
                 with open(self.tokens_path, "r", encoding="utf-8") as f:
                     self.tokens = json.load(f)
                 
-                if os.path.exists(self.cascade_path):
+                if os.path.exists(self.cascade_path) and hasattr(cv2, "CascadeClassifier"):
                     self.face_cascade = cv2.CascadeClassifier(self.cascade_path)
                 
                 self.is_ready = True
