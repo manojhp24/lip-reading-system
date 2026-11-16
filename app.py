@@ -249,6 +249,11 @@ with col_output:
                 elapsed = time.time() - start_time
 
                 # Visual Feedback: Tracked Face vs Cropped Lips ROI
+                if recognition_res.get("annotated_frames"):
+                    annotated_frames = recognition_res["annotated_frames"]
+                if recognition_res.get("mouth_crops"):
+                    cropped_lips = recognition_res["mouth_crops"]
+
                 st.markdown("#### Visual Computer Vision Pipeline (Modules 2 & 3)")
                 vis_col1, vis_col2 = st.columns(2)
                 with vis_col1:

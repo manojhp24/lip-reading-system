@@ -135,14 +135,22 @@ class LipReadingRecognitionEngine:
 
             avsr = self._get_auto_avsr_offline()
             if avsr.is_ready:
-                res = avsr.predict(frames, original_filename=original_filename)
+                video_fps = 25.0
+                if os.path.exists(video_path):
+                    cap_meta = cv2.VideoCapture(video_path)
+                    video_fps = cap_meta.get(cv2.CAP_PROP_FPS) or 25.0
+                    cap_meta.release()
+
+                res = avsr.predict(frames, original_filename=original_filename, video_fps=video_fps)
                 if res.get("is_success", False) and res.get("text"):
                     return {
                         "prediction": res["text"],
                         "confidence": res["confidence"],
                         "engine": res["model_name"],
                         "is_cloud_engine": False,
-                        "latency_sec": res.get("latency_sec", 0.0)
+                        "latency_sec": res.get("latency_sec", 0.0),
+                        "annotated_frames": res.get("annotated_frames"),
+                        "mouth_crops": res.get("mouth_crops")
                     }
 
         # ==============================================================
