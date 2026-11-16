@@ -162,20 +162,6 @@ with st.sidebar:
     st.divider()
     # Default high-performance 100% offline engine
     engine_mode = "offline_auto_avsr"
-    st.markdown("### 📋 Implemented Modules")
-    st.markdown("""
-    1. **M1**: Video Acquisition
-    2. **M2**: Face Detection (YuNet/Haar)
-    3. **M3**: Lip ROI Extraction & Alignment
-    4. **M4**: Frame Preprocessing (25 FPS)
-    5. **M5**: 3D-CNN Feature Extraction
-    6. **M6**: Temporal Sequence Recognition
-    7. **M7**: Confidence Evaluation
-    8. **M8**: Intelligent Feedback
-    9. **M9**: Model Performance Evaluation
-    """)
-    
-    st.divider()
     st.markdown("### 💻 Hardware & Environment")
     st.info("CPU: Intel Core i7 (Optimized)\nRAM: 16 GB\nMode: 100% Offline (Local CPU ONNX + TF)")
 
