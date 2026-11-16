@@ -279,16 +279,6 @@ elif st.session_state.current_page == "upload":
             with open(temp_video_path, "wb") as f:
                 f.write(uploaded_file.getbuffer())
 
-        st.markdown("""
-        <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-top: 15px;">
-            <div style="font-weight: 700; color: #1E3A8A; margin-bottom: 6px;">💡 Suggested Phrases to Speak:</div>
-            <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem; color: #475569;">
-                <li><b>Everyday English:</b> "Hello how are you", "Thank you very much", "Good morning"</li>
-                <li><b>Grammar Formula:</b> "Bin blue with M four now", "Lay green at B two please", "Set red in P three again"</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
     with col_up2:
         if temp_video_path and os.path.exists(temp_video_path):
             render_video_preview(temp_video_path, original_video_name)
