@@ -160,32 +160,8 @@ with st.sidebar:
             st.rerun()
 
     st.divider()
-    st.markdown("### 🌐 Inference Engine Mode")
-    engine_mode = st.radio(
-        "Select Prediction Engine:",
-        [
-            "⚡ Local Auto-AVSR (100% Offline, Any Video)",
-            "🎯 Benchmark LipNet (Nick Nochnack / GRID)",
-            "☁️ Optional Cloud GPU (Google Colab)"
-        ],
-        index=0
-    )
-
-    cloud_api_url = ""
-    is_cloud_active = False
-    if "Cloud" in engine_mode:
-        st.info("💡 Run `colab_backend.py` on free Google Colab GPU and paste your URL below to recognize ANY custom silent video in natural English.")
-        cloud_api_url = st.text_input("Gradio Cloud API URL:", placeholder="https://xxxx.gradio.live")
-        if cloud_api_url:
-            st.session_state.engine.set_cloud_endpoint(cloud_api_url)
-            is_cloud_active = True
-            st.success("Connected to Cloud GPU!")
-    elif "Auto-AVSR" in engine_mode:
-        st.caption("✅ **100% Offline Active**: Open-vocabulary VSR running on your Intel Core i7 CPU via quantized INT8 ONNX & YuNet.")
-    else:
-        st.caption("🎯 **Benchmark LipNet Active**: Evaluates GRID corpus benchmark clips via 3D-CNN + BiLSTM.")
-
-    st.divider()
+    # Default high-performance 100% offline engine
+    engine_mode = "offline_auto_avsr"
     st.markdown("### 📋 Implemented Modules")
     st.markdown("""
     1. **M1**: Video Acquisition
