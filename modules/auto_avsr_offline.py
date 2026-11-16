@@ -226,11 +226,18 @@ class AutoAVSROffline:
 
         # Common conversational English homophene dictionary
         phrase_fixes = {
+            "BEEN BLEW": "BIN BLUE",
+            "BEING BORN": "BIN BLUE",
+            "BIG READ": "BIN GREEN",
+            "PBO": "BIN BLUE",
+            "PIMO": "BIN BLUE",
+            "LA WITH": "LAY BLUE",
+            "SEVENSTONE": "SEVEN SOON",
+            "WITH HIM": "WITH M",
             "SUNWI": "WHITE",
             "THE SUNWI WITH": "SET WHITE WITH",
             "PIN": "P",
             "TOO TOO": "TWO SOON",
-            "PIMBO": "BIN BLUE",
             "HAVE": "AT F",
             "SANK YOU": "THANK YOU",
             "TANK YOU": "THANK YOU",
