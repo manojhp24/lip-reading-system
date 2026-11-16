@@ -25,7 +25,7 @@ st.set_page_config(
     page_title="Lip Reading System (AI)",
     page_icon="👄",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 st.markdown("""
@@ -138,32 +138,28 @@ def render_video_preview(video_path: str, display_name: str):
         else:
             st.info(f"Loaded video: {display_name}")
 
+# Global high-performance 100% offline engine mode
+engine_mode = "offline_auto_avsr"
+
 # ==============================================================================
-# 4. SIDEBAR SPECIFICATIONS
+# 4. SIDEBAR SPECIFICATIONS (Rendered only after user enters Studio)
 # ==============================================================================
-with st.sidebar:
-    st.image("https://img.icons8.com/color/96/artificial-intelligence.png", width=64)
-    st.title("Project Details")
-    st.markdown("**Lip Reading System Using Neural Networks & Deep Learning**")
-    st.markdown("*MCA Final Year Project Implementation*")
-    
-    st.divider()
-    st.markdown("### 🧭 Navigation")
-    nav_col1, nav_col2 = st.columns(2)
-    with nav_col1:
-        if st.button("🏠 Home", use_container_width=True, type="secondary" if st.session_state.current_page == "studio" else "primary"):
+if st.session_state.current_page == "studio":
+    with st.sidebar:
+        st.image("https://img.icons8.com/color/96/artificial-intelligence.png", width=64)
+        st.title("Project Details")
+        st.markdown("**Lip Reading System Using Neural Networks & Deep Learning**")
+        st.markdown("*MCA Final Year Project Implementation*")
+        
+        st.divider()
+        st.markdown("### 🧭 Navigation")
+        if st.button("🏠 Back to Home Page", use_container_width=True):
             st.session_state.current_page = "home"
             st.rerun()
-    with nav_col2:
-        if st.button("📹 Studio", use_container_width=True, type="primary" if st.session_state.current_page == "studio" else "secondary"):
-            st.session_state.current_page = "studio"
-            st.rerun()
 
-    st.divider()
-    # Default high-performance 100% offline engine
-    engine_mode = "offline_auto_avsr"
-    st.markdown("### 💻 Hardware & Environment")
-    st.info("CPU: Intel Core i7 (Optimized)\nRAM: 16 GB\nMode: 100% Offline (Local CPU ONNX + TF)")
+        st.divider()
+        st.markdown("### 💻 Hardware & Environment")
+        st.info("CPU: Intel Core i7 (Optimized)\nRAM: 16 GB\nMode: 100% Offline AI Execution\nModel: Auto-AVSR INT8 + YuNet")
 
 # ==============================================================================
 # 5. PAGE ROUTING: HOME PAGE OR STUDIO PAGE
@@ -173,6 +169,14 @@ with st.sidebar:
 # PAGE 1: WELCOME & LANDING HERO PAGE
 # ------------------------------------------------------------------------------
 if st.session_state.current_page == "home":
+    # Completely hide sidebar on Home Landing Page
+    st.markdown("""
+    <style>
+        [data-testid="stSidebar"] { display: none !important; }
+        [data-testid="collapsedControl"] { display: none !important; }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.markdown("""
     <div class="hero-card">
         <div style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #93C5FD; margin-bottom: 8px;">
